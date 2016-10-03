@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'attachment.dart';
 import 'message.dart';
 
 /// Represents a single Gmail Thread
@@ -40,5 +41,14 @@ class Thread {
     } else {
       return '(No Subject)';
     }
+  }
+
+  /// Get all [Attachment]s in all messages of thread
+  List<Attachment> getAllAttachments() {
+    List<Attachment> attachments = <Attachment>[];
+    messages.forEach((Message message) {
+      attachments.addAll(message.attachments);
+    });
+    return attachments;
   }
 }
