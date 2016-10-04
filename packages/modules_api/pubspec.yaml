@@ -1,0 +1,5 @@
+name: modules_api
+description: Stuff to help think of widgets as mock modules
+dependencies:
+dev_dependencies:
+  test: any
