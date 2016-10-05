@@ -44,11 +44,5 @@ class Thread {
   }
 
   /// Get all [Attachment]s in all messages of thread
-  List<Attachment> getAllAttachments() {
-    List<Attachment> attachments = <Attachment>[];
-    messages.forEach((Message message) {
-      attachments.addAll(message.attachments);
-    });
-    return attachments;
-  }
+  Iterable<Attachment> get attachments => messages.expand((Message m) => m.attachments);
 }

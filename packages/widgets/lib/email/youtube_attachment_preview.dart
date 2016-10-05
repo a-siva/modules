@@ -34,7 +34,7 @@ class YoutubeAttachmentPreview extends StatelessWidget {
   }
 
   /// Retrieves Youtube thumbnail from the video ID
-  String _getYoutubeThumbnailFromVideoUrl(String id) {
+  String _getYoutubeThumbnail(String id) {
     return 'http://img.youtube.com/vi/$id/0.jpg';
   }
 
@@ -54,7 +54,7 @@ class YoutubeAttachmentPreview extends StatelessWidget {
           width: 200.0,
           height: 150.0,
           child: new Image.network(
-            _getYoutubeThumbnailFromVideoUrl(attachment.content),
+            _getYoutubeThumbnail(attachment.content),
             width: 200.0,
             height: 200.0,
             fit: ImageFit.cover,

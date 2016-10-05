@@ -4,11 +4,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:models/email/attachment.dart';
 import 'package:models/email/message.dart';
 import 'package:models/email/thread.dart';
+import 'package:module_toolkit/module_slot.dart';
+import 'package:module_toolkit/module_data.dart';
+import 'package:module_toolkit/module_characteristics.dart';
+import 'package:module_toolkit/module_preference.dart';
+
 
 import '../user/alphatar.dart';
 import 'archive_dismissable_background.dart';
+import 'fallback_attachment_preview.dart';
 import 'thread_participant_list.dart';
 import 'type_defs.dart';
 
@@ -109,9 +116,8 @@ class ThreadListItem extends StatelessWidget {
       ],
     );
 
-    final Widget listItem = new Material(
-      color: Colors.white,
-      child: new ListItem(
+    final List<Widget> children = <Widget>[
+      new ListItem(
         enabled: true,
         onTap: _handleSelect,
         isThreeLine: true,
@@ -119,12 +125,46 @@ class ThreadListItem extends StatelessWidget {
         title: threadTitle,
         subtitle: threadSubtitle,
       ),
-    );
-
-
+    ];
 
     // TODO(dayang): Add 'slots' for attachments
     // https://fuchsia.atlassian.net/browse/SO-26
+    if(thread.attachments.isNotEmpty) {
+      children.add(new Block(
+        scrollDirection: Axis.vertical,
+        children: thread.attachments.map((Attachment attachment) {
+          return new ModuleSlot(
+            height: 150.0,
+            width: 200.0,
+            data: new ModuleData(
+              type: 'EmailAttachment',
+              payload: attachment,
+            ),
+            preference: new ModulePreference(
+              interactivity: new InteractivityPreference(
+                interactivity: InteractivityCharacteristic.readOnly,
+                level: PreferenceLevel.needToHave,
+              ),
+              direction: new DirectionalPreference(
+                direction: DirectionalCharacteristic.horizontal,
+                level: PreferenceLevel.niceToHave,
+              ),
+            ),
+            fallbackModule: new FallbackAttachmentPreview(
+              attachment: attachment,
+            ),
+          );
+        }).toList(),
+      ));
+    }
+
+    final Widget listItem = new Material(
+      color: Colors.white,
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      )
+    );
 
     //Wrap list item in Dissmissable if onArchive callback is given
     if (onArchive != null) {
