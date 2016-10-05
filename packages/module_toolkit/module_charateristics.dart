@@ -15,10 +15,28 @@ enum DirectionalPreference {
   equal,
 }
 
+/// UI modules should specify how 'interactive' they are. There are certain
+/// situations where a parent module would prefer to compose relatively
+/// 'static' modules.
+///
+/// An example is if you have a Youtube module that already is playing a video,
+/// most likely, you don't want another module composed next to it that also
+/// plays a conflicting video.
+enum InteractivityPreference {
+  /// Module is pretty much staic
+  readOnly,
+  /// Module has click/tap affordances but is not super dynamic
+  clickable,
+  /// Module will be playing audio
+  activeAudio,
+  /// Module will be playing video
+  activeVideo,
+}
+
 /// UI modules should specify the desired size in which they are given to
 /// render.
-enum SizePreference {
-  small,
-  medium
-  large,
-}
+// enum SizePreference {
+//   small,
+//   medium,
+//   large,
+// }

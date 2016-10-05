@@ -1,5 +1,7 @@
-name: modules_api
+name:  module_toolkit
 description: Stuff to help think of widgets as mock modules
 dependencies:
+  flutter:
+    sdk: flutter
 dev_dependencies:
   test: any
